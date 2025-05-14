@@ -4,22 +4,32 @@ module.exports = {
     browser: true,
     node: true
   },
+  parser: 'vue-eslint-parser',  // Asegúrate de usar el parser de Vue
   parserOptions: {
     parser: '@babel/eslint-parser',
-    requireConfigFile: false
+    requireConfigFile: false,
+    sourceType: 'module',
+    ecmaVersion: 2015
   },
-  extends: [
-    '@nuxtjs',
-    'plugin:vue/essential',
-    'eslint:recommended'
-  ],
+  extends: [],  // Eliminamos cualquier extensión de reglas por defecto
   plugins: [
-    'vue'
+    'vue',  // Plugin de Vue para ESLint, se mantiene si trabajas con Vue
   ],
   rules: {
-    // Desactivar todas las reglas
+    // Desactivamos todas las reglas
+    'no-console': 'off',
+    'no-debugger': 'off',
+    'no-unused-vars': 'off',
     'no-trailing-spaces': 'off',
     'no-multiple-empty-lines': 'off',
-    // Agrega aquí cualquier otra regla que desees desactivar
+    'semi': 'off',
+    'quotes': 'off',
+    'indent': 'off',
+    'comma-dangle': 'off',
+    'vue/no-v-html': 'off',
+    'vue/no-unused-components': 'off',
+    'vue/multi-word-component-names': 'off',
+    'eol-last': 'off'
+    // Añadir más reglas desactivadas si es necesario
   }
 }
