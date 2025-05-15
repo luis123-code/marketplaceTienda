@@ -1,5 +1,4 @@
 import axios from 'axios'
-
 const supabaseUrl = process.env.NUXT_ENV_SUPABASE_URL
 const apiKey = process.env.NUXT_ENV_SUPABASE_API_KEY
 export default async function serviceAxios ({ url, body, method = "GET", headers = {}, }) {
@@ -10,7 +9,6 @@ export default async function serviceAxios ({ url, body, method = "GET", headers
     service.defaults.headers.common['Content-Type'] = 'application/json'
     service.defaults.headers.common['Authorization'] = `Bearer ${apiKey}`
     service.defaults.headers.common['apikey'] = apiKey
-    // service.defaults.headers.common['Prefer'] = 'return=representation'
     headers = {
         ...headers,
         ...service.defaults.headers.common,

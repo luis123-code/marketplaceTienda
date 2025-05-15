@@ -1,5 +1,3 @@
-import colors from 'vuetify/es5/util/colors'
-
 export default {
   // Global page headers
   head: {
@@ -18,7 +16,10 @@ export default {
   },
 
   // Global CSS
-  css: [],
+  css: [
+    '../tienda2/assets/styleGeneral.scss' // 👈 Asegúrate que sea esta ruta
+  ],
+
 
   // Plugins
   plugins: [],
@@ -28,8 +29,8 @@ export default {
 
   // Build Modules
   buildModules: [
-    '@nuxtjs/eslint-module',
-    '@nuxtjs/vuetify'
+    '@nuxtjs/eslint-module'
+    // Elimina '@nuxtjs/vuetify' de aquí
   ],
 
   // 👉 Aquí agregas dotenv
@@ -42,23 +43,7 @@ export default {
   axios: {},
 
   // Vuetify Config
-  vuetify: {
-    customVariables: ['~/assets/variables.scss'],
-    theme: {
-      dark: true,
-      themes: {
-        dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
-        }
-      }
-    }
-  },
+  vuetify: false, // <-- Elimina la configuración de Vuetify aquí
 
   // Build Config
   build: {}
