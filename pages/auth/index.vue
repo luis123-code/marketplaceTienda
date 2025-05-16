@@ -98,9 +98,11 @@
                     await this.loguin(this.form)
                     console.log("datos logueado es" , this.$store.state.respuesta )
                     if(this.$store.state.respuesta){
-                    setTimeout(()=> {
+                    localStorage.setItem("usuario", JSON.stringify({ correo: this.$store.state.correo, nombre: this.$store.state.usuario }));
+                        setTimeout(()=> {
                         this.isDinamico = "Bienvenido"
                     },3000)
+
 
                     }else{
                         this.islogin = true

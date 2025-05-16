@@ -26,19 +26,7 @@
 
 
       <sliderProduct></sliderProduct>
-
-      <div id="js-shopping-card-tab" class="shopping-card-tab">
-          <div id="js-shopping-container-items" class="shopping-card-top"></div> <!-- section where insert the items -->
-          <div class="shopping-card-bottom">
-              <div class="shopping-card-total">
-                  <span class="login-section__label shopping-card-total__text">Total</span>
-                  <span id="js-shopping-total" class="price-product shopping-card-total__price">$ 0.00</span>
-              </div>
-              <button id="checkout-btn" class="general-button green--btn">
-                  <a href="../views/my-order.html" class="enviandoDatos" style="text-decoration: none;color: white;" > Checkout</a>
-              </button>
-          </div>
-      </div>
+      <cardShopping></cardShopping>
       <MenuTab></MenuTab>
       <containerProduct :productoArr="items" ></containerProduct>
 
@@ -51,12 +39,15 @@ import { mapActions } from 'vuex';
 import MenuTab from '~/components/MenuTab.vue';
 import containerProduct from '~/components/containerProduct.vue';
 import sliderProduct from '~/components/sliderProduct.vue';
+import cardShopping from '~/components/cardShopping.vue';
+import { getters } from '~/store';
 
 export default {
   components : {
     MenuTab,
     containerProduct ,
-    sliderProduct
+    sliderProduct,
+    cardShopping
   },
   data() {
     return {
@@ -71,6 +62,18 @@ export default {
   },
   created() {
     this.recibirProducts();
+
+  },
+  mounted(){
+        this.$store.commit("llamandoProductLocal")
+        this.$store.commit("localCanastAgregando" , this.gettersLocal)
+        console.log("dasd",this.gettersLocal)
+  },
+
+  computed : {
+    gettersLocal(){
+        return this.$store.getters.gettersllamandoLocal
+    },
   },
 
   methods: {

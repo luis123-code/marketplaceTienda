@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper-home">
     <main id="js-products-container" class="article-section">
-      <article class="article-section-item" v-for="(valores, index) in productoArr" :key="index">
+      <article class="article-section-item" v-for="(valores, index) in busqueda" :key="index">
         <div @click.stop="clickeandoProducto(valores)"
           class="article-section-item__img new-img" 
           :style="{ 'background-image': `url(${valores.imgs[0].img})` }"
@@ -13,6 +13,7 @@
           </div>
           <div class="circle-border"></div>
           <img 
+            @click.stop="agrgandoCamasta(valores)"
             class="add_to_card" 
             src="../static/icons/add_to_cart.svg" 
             alt="image of a shopping car"
@@ -39,8 +40,16 @@ export default {
     methods:{
         clickeandoProducto(datos){
             this.$store.commit("setProductosMostrar" , datos )
-            console.log(this.$store.getters.gettersProductos)
+            console.log(this.$store.getters.gettersCanastitaTotal)
         },
+        agrgandoCamasta(obj){
+            this.$store.commit("agregarProductos" , obj )
+        }
+    },
+    computed : {
+                  busqueda (){
+                return this.$store.getters.gettersBuscarProdcutos
+            }
     }
 };
 </script>

@@ -1,10 +1,10 @@
 <template>
-    <div id="js-product-detail" class="product-detail-tab":class="{ 'show-product-detail': dialogImg }" >
+    <div id="js-product-detail" class="product-detail-tab":class="{ 'show-product-detail': dialogImg }"  >
         <article class="shopping-card-item">
                 <div class="">
                 <div id="js-detail-img" class="new-img product-detail-img" :style="{ 'background-image': `url(${ informacion.imgs ? informacion.imgs[0].img : ''})` }" >
-                    <div class="wrapper-close-btn" @click="()=> dialogImg = false" ></div>
-                    <img class="close-icon" src="../static/icons/x-icon.svg" alt="close icon">
+                    <div class="wrapper-close-btn"></div>
+                    <img class="close-icon" src="../static/icons/x-icon.svg" alt="close icon"  @click="()=> dialogImg = false" >
                     <div class="points-wrapper">
                         <div class="point selected-point"></div>
                         <div class="point"></div>
@@ -22,7 +22,7 @@
                 </div>
     
                 <div class="product-detail-buttom">
-                    <button data-product="n3237" style="background-color :rgb(113, 114, 113)" id="js-detail-btn" class="general-button green--btn">
+                    <button  @click.stop="agrgandoCamasta()"   data-product="n3237" style="background-color :rgb(113, 114, 113)" id="js-detail-btn" class="general-button green--btn">
                         <img class="normal--size" src="../static/icons/shopping-icon.svg" alt="image of shopping car">
                         <span id="js-detail-btn-text" class="product-detail-buttom__text">Add to cart</span>
                     </button>
@@ -40,13 +40,28 @@
             }
         },
 
+
+        watch: {
+            '$store.getters.gettersProductos': {
+                handler(nuevoValor) {
+                    if(this.$store.getters.gettersProductos !== ""){
+                        this.dialogImg = true
+                    } 
+                },
+                immediate: true // Opcional, si quieres que se dispare al montar el componente también
+                }
+            },
         computed : {
             informacion(){
-                this.dialogImg = true
                 return this.$store.getters.gettersProductos
-            }
+            },
+
         },
         methods : {
+            agrgandoCamasta(){
+                let producto = this.informacion
+                this.$store.commit("agregarProductos" , producto )
+            },
 
         }
     }

@@ -21,8 +21,8 @@ export default async function serviceAxios ({ url, body, method = "GET", headers
             case "POST":
                 respuesta = await service.post(url, body, { headers })
                 break;
-            case "PUT":
-                respuesta = await service.put(url, body, { headers })
+            case "PATCH":
+                respuesta = await service.patch(url, body, { headers })
                 break;
             case "DELETE":
                 respuesta = await service.delete(url, { headers })
