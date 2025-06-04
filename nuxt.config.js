@@ -12,7 +12,13 @@ export default {
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    script: [
+      {
+        src: 'https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js',
+        defer: true
+      }
+    ]
   },
 
   // Global CSS
@@ -20,9 +26,9 @@ export default {
     '../tienda2/assets/styleGeneral.scss' // 👈 Asegúrate que sea esta ruta
   ],
 
-
   // Plugins
   plugins: [],
+  target: 'static',
 
   // Auto import components
   components: true,

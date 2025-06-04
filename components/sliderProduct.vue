@@ -15,10 +15,7 @@
                 <div class="product-detail-info">
                     <span id="js-detail-price" class="price-product">${{informacion.price}}</span>
                     <h3 id="js-detail-tittle" class="recovery-text">{{informacion.name}}</h3>
-                    <p id="js-detail-descrip" class="recovery-text">{{informacion.description}} Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                    </p>
+                    <p id="js-detail-descrip" class="recovery-text">{{informacion.description}}</p>
                 </div>
     
                 <div class="product-detail-buttom">

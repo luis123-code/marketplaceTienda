@@ -3,8 +3,7 @@
         <div class="section-up">
             <header class="header-section-login">
                 <nav>
-                    <img class="close-icon"  alt="close icon">
-                    <img class="logo-icon"  alt="logo of the webpage">
+                  <img style="cursor : pointer ;"  @click="()=>$router.push('/')" class="logo-icon"  src="../../static/icons/logo.svg"  alt="logo of the webpage">
                 </nav>
             </header>
             <main class="login-section">
@@ -95,7 +94,11 @@ export default {
           if(this.respuestaRegistro){
           setTimeout(() => {
                 this.dinamico = "Se registro"
+                  setTimeout(() => {
+                    this.$router.push("/auth")
+                  }, 3000);
           }, 3000);
+          
             console.log('Registro exitoso' , this.$store.state.respuestaRegistro)
           }
         } catch (error) {
@@ -118,4 +121,5 @@ export default {
 
 <style lang="scss">
 @import '../../assets/styleGeneral.scss';
+@import '../../assets/iconStyle.scss';
 </style>

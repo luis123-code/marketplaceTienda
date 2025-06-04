@@ -46,9 +46,12 @@
         computed: {
             fechaFormato (){
                 const hoy = new Date();
-                const opciones = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'America/Lima' };
-                const fechaPeru = hoy.toLocaleDateString('es-PE', opciones);
-                return fechaPeru
+                const opciones = { timeZone: 'America/Lima' };
+                const fechaLima = new Date(hoy.toLocaleString('en-US', opciones));
+                const mes = String(fechaLima.getMonth() + 1).padStart(2, '0'); // Mes comienza desde 0
+                const dia = String(fechaLima.getDate()).padStart(2, '0');
+                const anio = fechaLima.getFullYear();
+                return `${mes}.${dia}.${anio}`;
             },
             gettersLocal(){
                 return this.$store.getters.gettersllamandoLocal

@@ -19,9 +19,7 @@
             </main>
         </div>
         <div class="section-down">
-            <button id="create-account-btn" onclick="editAccount(this)" class="general-button white--btn">
-                Edit
-            </button>
+            <nuxt-link to="/auth/passw.recovery" ><button id="create-account-btn" class="general-button white--btn">Edit</button></nuxt-link>
         </div>
     </div>
 </template>

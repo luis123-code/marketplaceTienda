@@ -13,8 +13,8 @@
                   <li class="menu-tab__main-list__item">Others</li>
               </ul>
               <ul class="menu-tab__logged">
-                  <li class="menu-tab__logged__item"><a class="style-no-link" >My orders</a></li>
-                  <li class="menu-tab__logged__item"><a class="style-no-link">My account</a></li>
+                  <li class="menu-tab__logged__item"><nuxt-link class="style-no-link" to="/orderDate"  >My orderDate</nuxt-link></li>
+                  <li class="menu-tab__logged__item"><nuxt-link class="style-no-link" to="/auth/passw.recovery"  >My account</nuxt-link></li>
               </ul>
           </div>
           <div>
@@ -80,7 +80,7 @@ export default {
     ...mapActions(["obtniendoProductos"]),
     async recibirProducts() {
       try{
-        await this.obtniendoProductos()
+        await this.obtniendoProductos({})
         this.items = this.$store.state.productos
         console.log("la respuesta es" , this.$store.state.respuestaProductos ,   this.items  )
       }catch(error){

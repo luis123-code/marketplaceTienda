@@ -24,8 +24,8 @@
                   <span class="login-section__label shopping-card-total__text">Total</span>
                   <span id="js-shopping-total" class="price-product shopping-card-total__price">S/{{CantidadComprasCanastita}}</span>
               </div>
-              <button id="checkout-btn" class="general-button green--btn" @click="enviandoOrden()"  >
-                  <a class="enviandoDatos" style="text-decoration: none;color: white;" > Checkout</a>
+              <button id="checkout-btn" class="general-button green--btn" @click="enviandoOrden()" >
+                <a to="/orders" class="enviandoDatos" style="text-decoration: none;color: white;">Checkout</a>
               </button>
           </div>
       </div>
@@ -67,6 +67,7 @@
             },
             enviandoOrden(){
                 this.$store.commit('agregandoProductLocal', this.informacionCanastita)
+                this.$router.push("/orders")
             }
         }
 

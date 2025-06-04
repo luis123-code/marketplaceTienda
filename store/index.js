@@ -8,7 +8,9 @@ export const state = () => ({
     respuestaRegistro: false,
     respuestaProductos: false,
     respuestaActualizacion: false,
-    cod : "" ,
+    respuestaEliminar: false,
+    cod: "",
+    isnNav: false,
     productos: [],
     canastita: [],
     productosMostrar: "",
@@ -17,13 +19,29 @@ export const state = () => ({
     correo: "",
     admin: false,
     error: null,
+    objCrearActualzacion: {},
     totalValoresComprado: "0.00",
     isOpenStore: false,
     localProduct: "",
-    busqueda: ""
+    busqueda: "",
+    localAdmin: {},
+    eliminandoValores: [],
+    registro: ""
+
 })
 
 export const mutations = {
+    interaccionEliminandoValores(state, payload) {
+        state.interaccion = payload
+        if (payload.focus === true) {
+            state.eliminandoValores.push(payload)
+        } else {
+            state.eliminandoValores = state.eliminandoValores.filter(item => item.id !== payload.id);
+        }
+    },
+    limpiandoValores(state) {
+        state.eliminandoValores = [];
+    },
     validacion(state, payload) {
         state.respuesta = payload
     },
@@ -40,6 +58,7 @@ export const mutations = {
         focus = false,
         product = 0
     }) {
+        state.productos = []
         state.respuestaProductos = focus
         if (product !== 0) {
             state.productos.push(...product)
@@ -50,12 +69,12 @@ export const mutations = {
         state.productosMostrar = payload
     },
     agregarProductos(state, payload) {
+        console.log("agregando productos", Array.isArray(state.canastita))
         let { id } = payload
         let valor = state.canastita.find(valores => valores.id === id)
         if (valor) {
             valor.cantidad++
         } else {
-
             state.canastita.push(
                 {
                     ...payload,
@@ -77,8 +96,13 @@ export const mutations = {
             }
         }
     },
+
+
+
+
+
     localCanastAgregando(state, payload) {
-        state.canastita = payload
+        state.canastita = payload === "" ? [] : payload
     },
     isStore(state) {
         state.isOpenStore = !state.isOpenStore
@@ -89,25 +113,46 @@ export const mutations = {
             state.localProduct = payload
         }
     },
+
+    agregandoLocalAdmin(state, payload) {
+        if (process.client) {
+            localStorage.setItem("local", JSON.stringify(payload))
+        }
+    },
+
     llamandoProductLocal(state) {
         if (process.client) {
-            const productosGuardados = localStorage.getItem("productos")
+            const productosGuardados = localStorage.getItem("local")
             if (productosGuardados) {
-                state.localProduct = JSON.parse(productosGuardados)
+                state.local = JSON.parse(productosGuardados)
             } else {
-                state.localProduct = []
+                state.local = {
+                    nav: "Dashboard",
+                    busqueda: "Usuarios"
+                }
             }
         }
     },
     insertarBusqueda(state, payload) {
         state.busqueda = payload
     },
-    setUsuario(state, { correo, nombre , cod }) {
+    setUsuario(state, { correo, nombre, cod }) {
         state.correo = correo
         state.usuario = nombre
-        state.cod  = cod
+        state.cod = cod
+    },
+    validacionNav(state, payload) {
+        state.isnNav = payload
+    },
+    encapsularRegistro(state, payload) {
+        state.registro = payload
+    },
+    validacionEliminar(state, payload) {
+        state.respuestaEliminar = payload
+    },
+    agregandoObjct(state, payload) {
+        state.objCrearActualzacion = payload
     }
-
 }
 
 
@@ -174,6 +219,19 @@ export const actions = {
             console.error("Error en la acción de registro:", error)
         }
     },
+    async obteniendoRegistro({ commit }) {
+        try {
+            let respuesta = await apiService({
+                url: "rest/v1/usuarios",
+                method: "GET",
+            })
+            commit("encapsularRegistro", respuesta)
+            console.log("Respuesta de registro:", respuesta)
+        } catch (error) {
+            commit("encapsularRegistro", "")
+            console.error("Error en la acción de registro:", error)
+        }
+    },
     async loguin({ commit, state }, payload) {
         console.log("Acción de registro:", payload)
         try {
@@ -187,8 +245,8 @@ export const actions = {
                 console.log("entro")
                 commit("setUsuario", {
                     correo: data[0].correo,
-                    nombre: data[0].nombre ,
-                    cod : data[0].id
+                    nombre: data[0].nombre,
+                    cod: data[0].id
                 })
                 commit("validacion", true)
             } else {
@@ -220,29 +278,54 @@ export const actions = {
         }
     },
 
-    async obtniendoProductos({ commit }) {
+    async obtniendoProductos({ commit }, { cuerpo = {}, methodo = "GET" }) {
+        let respuesta = ""
         try {
-            let respuesta = await apiService({
-                url: "rest/v1/products",
-                method: "GET",
-            })
-            commit("validacionProductos", {
-                focus: true,
-                product: respuesta.data,
-            })
+            switch (methodo) {
+                case "PATCH":
+                    let resetear = JSON.parse(JSON.stringify(cuerpo))
+                    delete resetear.id
+                    respuesta = await apiService({
+                        url: `rest/v1/products?id=eq.${cuerpo.id}`,
+                        method: "PATCH",
+                        body: resetear
+                    })
+                    commit("validacionProductos", {
+                        focus: true,
+                        product: respuesta.data,
+                    })
+                    break;
+                case "POST":
+                    respuesta = await apiService({
+                        url: "rest/v1/products",
+                        method: "POST",
+                        body: cuerpo
+                    })
+                    commit("validacionProductos", {
+                        focus: true,
+                        product: respuesta.data,
+                    })
+                    break;
+                default:
+                    respuesta = await apiService({
+                        url: "rest/v1/products",
+                        method: "GET",
+                    })
+                    commit("validacionProductos", {
+                        focus: true,
+                        product: respuesta.data,
+                    })
+                    break;
 
+            }
             console.log("los productos otenidos son", respuesta.data)
         } catch (error) {
             commit("validacionProductos", false)
             console.error("Error en la acción de registro:", error)
         }
     },
-
-
-
-
     async actualizarUsuario({ commit }, payload) {
-         console.log("efsfasfas")
+        console.log("efsfasfas")
         try {
             let respuesta = await apiService({
                 url: `rest/v1/usuarios?id=eq.${payload.id}`,
@@ -258,6 +341,53 @@ export const actions = {
             commit("validacionActualizaciom", false)
 
         }
-    }
+    },
+    async actualizarUsuarioTotal({ commit }, payload) {
+        let resetear = JSON.parse(JSON.stringify(payload))
+        delete resetear.id
+        try {
+            let respuesta = await apiService({
+                url: `rest/v1/usuarios?id=eq.${payload.id}`,
+                method: "PATCH",
+                body: JSON.stringify({
+                    correo: resetear.email,
+                    constrasenia: resetear.password,
+                    telefono: resetear.phone,
+                    apellido: resetear.apellido,
+                    ciudad: resetear.city,
+                    nombre: resetear.name,
 
+                })
+            })
+            commit("validacionActualizaciom", true)
+            console.log("los productos otenidos son", respuesta.data)
+        } catch (err) {
+            commit("validacionActualizaciom", false)
+
+        }
+    },
+    async eliminarValores({ commit }, payload) {
+        let {
+            bloques,
+            name,
+        } = payload
+        let arraysRespuesta = await Promise.all(bloques.map(async (item) => {
+            try {
+                let respuesta = await apiService({
+                    url: `rest/v1/${name}?id=eq.${item.id}`,
+                    method: "DELETE",
+                })
+                return true
+            } catch (err) {
+                return false
+            }
+        }))
+
+        if (arraysRespuesta.every(res => res === true)) {
+            commit("validacionEliminar", true)
+        } else {
+            commit("validacionEliminar", false)
+        }
+        console.log("la informacion de la eliminacion", arraysRespuesta)
+    },
 }

@@ -18,10 +18,10 @@
 
             <a @click="enviandoActualizacion()">
                 <button id="validacionDatos-btn" class="general-button green--btn">
-                    Submit
+                    {{dinamicoCargando}}
                 </button>
             </a>
-            <a class="general-message-link green__message">Back to log in</a>
+            <nuxt-link class="general-message-link green__message" to="/">Back</nuxt-link>
         </main>
     </div>
 
@@ -36,6 +36,7 @@
                 constraseniaAntigua : "" ,
                 constraseniaNueva : "" ,
                 datos : "" , 
+                dinamicoCargando : "Submit"
             }
         },
         mounted() {
@@ -47,6 +48,7 @@
         methods : {
             ...mapActions(["loguin" , "actualizarUsuario"]),
             async enviandoActualizacion(){
+                this.dinamicoCargando = "Cargando ..."
                 try{
                     await this.loguin(
                         {
@@ -65,16 +67,29 @@
                                 id : codigo
                             }
                         )
+                    }else{
+                      setTimeout(() => {
+                        this.dinamicoCargando = "Error al actualizar. Por favor, verifica tu correo y contraseña.";
+                        
+                        setTimeout(() => {
+                          this.dinamicoCargando = "Submit";
+                        }, 3000);
+                      
+                      }, 3000);
                     }
                 }catch(err){
                     console.error(err)
-
                 }
             },
 
             async actualizarDatos(obj){
                 try{
+
                     await this.actualizarUsuario(obj)
+                    
+                setTimeout(()=> {
+                    this.dinamicoCargando = "Se actualizó correctamente.";
+                },3000)
 
                 }catch(err){
                     console.log(err)

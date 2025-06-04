@@ -3,8 +3,7 @@
         <div class="section-up">
             <header class="header-section-login">
                 <nav>
-                    <img class="close-icon"  alt="close icon">
-                    <img class="logo-icon"  alt="logo of the webpage">
+                    <img style="cursor : pointer ;"  @click="()=>$router.push('/')" class="logo-icon"  src="../../static/icons/logo.svg"  alt="logo of the webpage">
                 </nav>
             </header>
             <main class="login-section">
@@ -18,13 +17,13 @@
                 <button id="login-btn" class="general-button green--btn"  @click.stop="login()">
                     {{isDinamico}}
                 </button>
-                <a href="../src\views\pass-recovery.html" class="general-message-link green__message"  style="height:35px">Forgot my
+                <a @click.stop="()=> $router.push('/auth/actualizar_login')" class="general-message-link green__message"  style="height:35px">Forgot my
                     password</a>
             </main>
         </div>
         <div class="section-down">
-            <button id="singup-btn" class="general-button white--btn">
-                <a href="../src/views/registrarse.html" style="text-decoration: none;color: #acd9b2;">Sign up</a>
+            <button  id="singup-btn" class="general-button white--btn"  @click.stop="()=> $router.push('/auth/registro') "  >
+                <a  style="text-decoration: none;color: #acd9b2;">Sign up</a>
             </button>
         </div>
     </div>
@@ -128,4 +127,5 @@
 </script>
 <style lang="scss">
 @import '../../assets/styleGeneral.scss';
+@import '../../assets/iconStyle.scss';
 </style>

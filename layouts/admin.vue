@@ -1,17 +1,25 @@
 <template>
-  <div class="app-container">
-    <main class="main-content">
-      <Nuxt />
-    </main>
-  </div>
+        <div class="">
+          <main>
+            <Nuxt />
+          </main>
+                
+        </div>
 </template>
 <script>
+  import navAdmin from "../components/navAdmin.vue" 
   export default {
       name: 'admin-layout',
+      comments : {
+        navAdmin
+      },
+
+
   }
 </script>
 
 <style scoped>
+
   
 
 .footer {

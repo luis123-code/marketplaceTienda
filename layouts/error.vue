@@ -14,6 +14,7 @@
 
 <script>
 export default {
+          middleware: ['redireccionAdmin'],
   layout: 'empty',
   props: {
     error: {

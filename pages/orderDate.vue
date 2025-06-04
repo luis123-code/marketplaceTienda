@@ -3,7 +3,7 @@
         <header class="header-my-order">
             <nav class="header-home-nav nav--my-orders">
                 <img class="menu-icon" src="../static/icons/menu-icon.svg" alt="menu icon">
-                <a class="style-no-link" ><h2>My order</h2></a>
+                <a class="style-no-link" ><h2>My order date</h2></a>
                 <img class="shopping-cart" src="../static/icons/shopping-cart.svg" alt="icon of a shopping cart">
             </nav>
         </header>

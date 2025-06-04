@@ -3,8 +3,7 @@
         <div class="section-up">
             <header class="header-section-login">
                 <nav>
-                    <img class="close-icon"  alt="close icon">
-                    <img class="logo-icon"  alt="logo of the webpage">
+                    <img class="logo-icon"  src="../../static/icons/logo.svg"  alt="logo of the webpage">
                 </nav>
             </header>
             <main class="login-section">
@@ -35,7 +34,7 @@
             isValidando : false,
             isCorreo : false ,
             islogin : false,
-            isDinamico : "Log in" , 
+            isDinamico : "Acceder" , 
         }
     },
     watch :{
@@ -91,12 +90,18 @@
                     if(this.$store.state.respuestaAdmin){
                     setTimeout(()=> {
                         this.isDinamico = "Bienvenido Admin"
+                        setTimeout(()=> {
+                            this.$router.push("/admin/bienvenido")
+                        },3000)
                     },3000)
 
                     }else{
                         this.islogin = true
                         setTimeout(()=> {
-                        this.isDinamico = "Log in"
+                            this.isDinamico = "Error de Token , validate"
+                            setTimeout(()=> {
+                                this.isDinamico = "Acceder"
+                            },3000)
                         },3000)
                     }
                 } catch (error) {
@@ -105,7 +110,7 @@
             }
         },
 
-
+        
 
 
 
@@ -117,4 +122,5 @@
 </script>
 <style lang="scss">
 @import '../../assets/styleGeneral.scss';
+@import '../../assets/iconStyle.scss';
 </style>

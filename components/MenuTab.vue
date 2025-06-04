@@ -7,12 +7,10 @@
                       <img id="js-link-logo" class="logo-icon-small" src="../static/icons/logo.svg"
                           alt="logo of the webpage">
                       <ul id="home-nav-desk" class="header-home-section__list hide-section">
-                          <li id="js-all-desk" class="header-home-section__list-option selected-item-desk">All</li>
-                          <li id="js-clothes-desk" class="header-home-section__list-option">Clothes</li>
-                          <li id="js-electronics-desk" class="header-home-section__list-option">Electronics</li>
-                          <li id="js-furnitures-desk" class="header-home-section__list-option">Furnitures</li>
-                          <li id="js-toys-desk" class="header-home-section__list-option">Toys</li>
-                          <li id="js-others-desk" class="header-home-section__list-option">Others</li>
+                        <!--selected-item-desk-->
+                        <li id="js-all-desk" class="header-home-section__list-option" v-for="(valores , index) in categories" :key="index" @click="filtrosCategorias(valores , index)"  :class="{'selected-item-desk' : index === isIndex  }"   >
+                            {{valores}}
+                        </li>
                       </ul>
                   </div>
                   <h2 id="js-tittle-logo" class="hide-logo">Shopping cart</h2>
@@ -23,11 +21,9 @@
                               <img class="arrow-down-icon" src="../static/icons/arrow-down.svg" alt="arrow down image">
                           </div>
                           <div id="js-menu-nav" class="email-menu__list "  :class="{ 'show-section' : isOpenMenu  }"  >
-                              <ul class="email-list-ul">
-                                  <li class="email-list-ul__item"><a class="style-no-link">My
-                                          orders</a></li>
-                                  <li class="email-list-ul__item"><a class="style-no-link">My
-                                          account</a></li>
+                              <ul class="email-list-ul" style="width: 125px;padding-right: 9px;padding-top: 16px;">
+                                  <li class="menu-tab__logged__item"><nuxt-link class="style-no-link" to="/orderDate"  >My orderDate</nuxt-link></li>
+                                  <li class="menu-tab__logged__item"><nuxt-link class="style-no-link" to="/auth/actualizar"  >My account</nuxt-link></li>
                                   <a href="#" class="email-list-ul__item menu-tab__loggin">Sign out</a>
                               </ul>
                           </div>
@@ -52,12 +48,9 @@
               </select>
           </div>
           <ul id="home-nav-mobile" class="header-home-section__list">
-              <li id="js-all-mobile" class="header-home-section__list-option selected-item-mobile">All</li>
-              <li id="js-clothes-mobile" class="header-home-section__list-option">Clothes</li>
-              <li id="js-electronics-mobile" class="header-home-section__list-option">Electronics</li>
-              <li id="js-furnitures-mobile" class="header-home-section__list-option">Furnitures</li>
-              <li id="js-toys-mobile" class="header-home-section__list-option">Toys</li>
-              <li id="js-others-mobile" class="header-home-section__list-option">Others</li>
+              <li id="js-all-mobile" class="header-home-section__list-option" v-for="(valores , index) in categories" :key="index" @click="filtrosCategorias(valores , index)"  :class="{'selected-item-desk' : index === isIndex  }"   >
+                {{valores}}
+            </li>
           </ul>
       </header>
 </template>
@@ -66,10 +59,14 @@
         name : "MenuTab",
         data(){
             return {
-                isOpenMenu : false , 
+                isOpenMenu : false ,
+                isIndex : "" , 
                 busquedaDatos : "" ,
-
+                categories  : [ "All" , "Clothes", "Electronics", "Furnitures", "Toys", "Others"]
             }
+        },
+        mounted(){
+            this.filtrosCategorias( "All" , 0)
         },
         computed : {
             lengthCanastita(){
@@ -93,6 +90,12 @@
             },
             oprnMe(){
                 this.isOpenMenu = !this.isOpenMenu
+            },
+            filtrosCategorias(values , index ){
+                values = values === "All" ? "" : values
+                this.isIndex = index
+                this.$store.commit("insertarBusqueda" , values)
+                this.busqueda
             }
         }
     }
