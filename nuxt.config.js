@@ -23,7 +23,7 @@ export default {
 
   // Global CSS
   css: [
-    '../tienda2/assets/styleGeneral.scss' // 👈 Asegúrate que sea esta ruta
+    '@/assets/styleGeneral.scss' // 👈 Asegúrate que sea esta ruta
   ],
 
   // Plugins
